@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="pico.min.css">
+    <title>qr scanner</title>
+    <style>
+      .mainbody {margin-left: 50px;}
+      .flex-container {
+        display: flex;
+      }
+
+      .flex-child {
+          flex: 1;
+      }  
+
+      .flex-child:first-child {
+          margin-right: 20px;
+      } 
+
+    </style>
+  </head>
+  <body class="mainbody">
+    <h1>RKI Formulare</h1>
+    <div class="flex-container">
+      <div class="flex-child"><button>QR-Code scannen</button></div>
+      <div class="flex-child" ><Input type="file" accept="image/png" name="pictureToScan"> </div>
+    </div>
+  </body>
+</html>
