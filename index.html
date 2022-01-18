@@ -3,33 +3,18 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="pico.min.css">
     <title>qr scanner</title>
-    <style>
-      .mainbody {margin-left: 50px;}
-      .flex-container {
-        display: flex;
-      }
-
-      .flex-child {
-          flex: 1;
-      }  
-
-      .flex-child:first-child {
-          margin-right: 20px;
-      } 
-
-    </style>
   </head>
-  <body class="mainbody">
+  <body class="container">
     <h1>RKI Formulare</h1>
-    <div class="flex-container">
-      <div class="flex-child"><button onclick="openCamera()">QR-Code scannen</button></div>
-      <div class="flex-child" ><Input type="file" accept="image/png" name="pictureToScan"> </div>
+    <div class="grid">
+      <button onclick="openCamera()">QR-Code scannen</button>
+      <Input type="file" accept="image/*" name="pictureToScan">
     </div>
     <script>
       function openCamera() {
         alert("scanning...");
       }
-
+    
 
     </script>
   </body>
