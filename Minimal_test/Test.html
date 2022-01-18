@@ -16,21 +16,10 @@
   <body>
     <h1 id="HelloWorld">hello world</h1>
   <script>
-    function checkInnerHTML(ElementID, text){
-      if (document.getElementById(ElementID) != undefined && document.getElementById(ElementID) != null){
-        return document.getElementById(ElementID).innerHTML == text;
-      }
-      else {
-        return false;
-      }
-    }
-  </script>
-  <script>
-    describe("checkInnerHTML", function() {
-      it("Checks what is in the inner html", function() {
-        assert.equal(checkInnerHTML("HelloWorld", "hello world"), true);
-        assert.equal(checkInnerHTML("HelloWorld", "helloworld"), false);
-        assert.equal(checkInnerHTML("Hello World", "hello world"), false);
+    describe("innerHTML", function() {
+      it("returns what's in the inner html", function() {
+        assert.equal(document.getElementById("HelloWorld").innerHTML, "hello world");
+        assert.equal(document.getElementById("Helloworld").innerHTML, null);
       });
     });
 
