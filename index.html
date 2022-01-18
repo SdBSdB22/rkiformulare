@@ -22,8 +22,15 @@
   <body class="mainbody">
     <h1>RKI Formulare</h1>
     <div class="flex-container">
-      <div class="flex-child"><button>QR-Code scannen</button></div>
+      <div class="flex-child"><button onclick="openCamera()">QR-Code scannen</button></div>
       <div class="flex-child" ><Input type="file" accept="image/png" name="pictureToScan"> </div>
     </div>
+    <script>
+      function openCamera() {
+        alert("scanning...");
+      }
+
+
+    </script>
   </body>
 </html>
