@@ -1,0 +1,32 @@
+<html>
+  <head>
+	  <title>Santiagos Webseite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+      mocha.setup('bdd'); // minimal setup
+    </script>
+    <!-- add chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script>
+      // chai has a lot of stuff, let's make assert global
+      let assert = chai.assert;
+    </script>
+  </head>
+  <body>
+    <h1 id="HelloWorld">hello world</h1>
+  <script>
+    describe("innerHTML", function() {
+      it("returns what's in the inner html", function() {
+        assert.equal(document.getElementById("HelloWorld").innerHTML, "hello world");
+        assert.equal(document.getElementById("Helloworld").innerHTML, null);
+      });
+    });
+
+  </script>
+  <div id="mocha"></div>
+  <script>
+    mocha.run();
+  </script>
+  </body>
+</html>
