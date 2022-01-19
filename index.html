@@ -8,6 +8,13 @@
         color: white;
         background-color: #1095c1;
         outline-color:#1095c1 ;
+        opacity: 1;
+        width: 100%;
+      }
+      #label1 {
+        margin: 0;
+        text-align: center;
+        width: 100%;
       }
     </style>
   </head>
@@ -16,7 +23,7 @@
     <div class="grid">
       <button onclick="openCamera()">QR-Code scannen</button>
       <div>
-        <label for="BrowseImage"><a id="label_link" role="button">QR-Code aus Foto lesen</a></label>
+        <label id="label1" for="BrowseImage"><a id="label_link" role="button">QR-Code aus Foto lesen</a></label>
         <Input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
        </div>
     </div>
