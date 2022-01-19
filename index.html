@@ -3,14 +3,21 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="pico.min.css">
     <title>qr scanner</title>
+    <style>
+      #label_link {
+        opacity: 1;
+        width: 100%;
+      }
+
+    </style>
   </head>
   <body class="container">
     <h1>RKI Formulare</h1>
     <div class="grid">
       <button onclick="openCamera()">QR-Code scannen</button>
       <div>
-        <label for="BrowseImage">this is a label</label>
-        <Input type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
+        <label for="BrowseImage"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
+        <Input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
        </div>
     </div>
     <script>
