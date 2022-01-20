@@ -36,26 +36,20 @@ function parseVcard(vCard) {
     }
     return user;
 }
-function ParameterToUser(){
-  let url = window.location.href;
-  let user = new Object();
-  user = {
-    firstName: url.slice(url.search("firstName=") + 10,url.search(",secondName")),
-    secondName: url.slice(url.search("secondName=") + 11,url.search(",birthdate")),
-    birthdate: url.slice(url.search("birthdate=") + 11,url.search(",address")),
-    address: url.slice(url.search("address=")+8, url.search(",date")),
-    date: url.slice(url.search(",date=")+6)
+
+function fillRKIFormular(){
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('openPrintDialog') == "true"){
+    const PrintTimer = setTimeout(window.print, 500);
   }
-  return user;
-}
-function fillRKIFormular(user){
-  document.getElementById("anamnese-anschrift").innerHTML = user.address;
-  document.getElementById("anamnese-name-vorname").innerHTML = user.secondName +", "+user.firstName;
-  document.getElementById("anamnese-geburtsdatum").innerHTML = user.birthdate;
-  document.getElementById("einwilligung-anschrift").innerHTML = user.address;
-  document.getElementById("einwilligung-name-vorname").innerHTML = user.secondName +", "+user.firstName;
-  document.getElementById("einwilligung-geburtsdatum").innerHTML = user.birthdate;
-  document.getElementById("einwilligung-ort-datum").innerHTML = user.date;
+  document.getElementById("anamnese-anschrift").innerHTML = urlParams.get('address')//user.address;
+  document.getElementById("anamnese-name-vorname").innerHTML = urlParams.get('secondName') +", "+urlParams.get('firstName');
+  document.getElementById("anamnese-geburtsdatum").innerHTML = urlParams.get('birthdate');
+  document.getElementById("einwilligung-anschrift").innerHTML = urlParams.get('address')
+  document.getElementById("einwilligung-name-vorname").innerHTML = urlParams.get('secondName') +", "+urlParams.get('firstName');
+  document.getElementById("einwilligung-geburtsdatum").innerHTML = urlParams.get('birthdate');
+  document.getElementById("einwilligung-ort-datum").innerHTML = urlParams.get('date');
 
 
 }
+
