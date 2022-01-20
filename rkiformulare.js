@@ -35,6 +35,7 @@ function parseVcard(vCard) {
       zipCode: vCard.slice(vCard.search(":;;")+3).slice(vCard.slice(vCard.search(":;;")+3).search(";;")+2,vCard.slice(vCard.search(":;;")+3).search("; REV"))
     }
     return user;
+
 }
 function ParameterToUser(){
   let url = window.location.href;
