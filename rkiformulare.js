@@ -36,3 +36,28 @@ function parseVcard(vCard) {
     }
     return user;
 }
+function ParameterToUser(){
+  let url = window.location.href;
+  alert(url)
+  let user = new Object();
+  user = {
+    firstName: url.slice(url.search("firstName=") + 10,url.search(",secondName")),
+    secondName: url.slice(url.search("secondName=") + 11,url.search(",birthdate")),
+    birthdate: url.slice(url.search("birthdate=") + 11,url.search(",address")),
+    address: url.slice(url.search("address=")+8, url.search(",date")),
+    date: url.slice(url.search(",date=")+6)
+  }
+  alert(user);
+  return user;
+}
+function fillRKIFormular(user){
+  document.getElementById("anamnese-anschrift").innerHTML = user.address;
+  document.getElementById("anamnese-name-vorname").innerHTML = user.secondName +", "+user.firstName;
+  document.getElementById("anamnese-geburtsdatum").innerHTML = user.birthdate;
+  document.getElementById("einwilligung-anschrift").innerHTML = user.address;
+  document.getElementById("einwilligung-name-vorname").innerHTML = user.secondName +", "+user.firstName;
+  document.getElementById("einwilligung-geburtsdatum").innerHTML = user.birthdate;
+  document.getElementById("einwilligung-ort-datum").innerHTML = user.date;
+
+
+}
