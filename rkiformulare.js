@@ -38,7 +38,6 @@ function parseVcard(vCard) {
 }
 function ParameterToUser(){
   let url = window.location.href;
-  alert(url)
   let user = new Object();
   user = {
     firstName: url.slice(url.search("firstName=") + 10,url.search(",secondName")),
@@ -47,7 +46,6 @@ function ParameterToUser(){
     address: url.slice(url.search("address=")+8, url.search(",date")),
     date: url.slice(url.search(",date=")+6)
   }
-  alert(user);
   return user;
 }
 function fillRKIFormular(user){
