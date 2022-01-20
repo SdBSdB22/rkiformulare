@@ -1,0 +1,76 @@
+<html>
+  <head>
+	  <title>Santiagos Webseite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+      mocha.setup('bdd'); // minimal setup
+    </script>
+    <!-- add chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script>
+      // chai has a lot of stuff, let's make assert global
+      let assert = chai.assert;
+    </script>
+    
+  </head>
+  <body>
+    <select id="selectToFill"></select>
+
+    <script src="rkiformulare.js"></script>
+
+    <script>
+      const vcard = "Last Match: BEGIN:VCARD VERSION:4.0 N:Musterperson;Alex;;; FN:Alex Musterperson BDAY:19870605 EMAIL;TYPE=home:muster@person.alex TEL;TYPE='cell,home':055544332211 ADR;TYPE=home:;;Hauptstr. 23;Plauen;;42230; REV:20220110T082823Z END:VCARD"
+
+      describe("parseVcard", function() {
+        it("parses the second name correctly", function() {
+          assert.equal(parseVcard(vcard).secondName, "Musterperson");
+        });
+        it("parses the first name correctly", function() {
+          assert.equal(parseVcard(vcard).firstName, "Alex")
+        });
+        it("parses the birthDay correctly", function(){
+          assert.equal(parseVcard(vcard).birthDay,"05.06.1987")
+        });
+        it("parses the address correctly", function() {
+          assert.equal(parseVcard(vcard).street, "Hauptstr. 23")
+        });
+        it("parses the city correctly", function(){
+          assert.equal(parseVcard(vcard).city, "Plauen")
+        });
+        it("parses the zip code correctly", function(){
+          assert.equal(parseVcard(vcard).zipCode, "42230")
+        });
+        it("parses the phone correctly", function(){
+          assert.equal(parseVcard(vcard).phone, "055544332211")
+        });
+        it("parses the email correctly", function(){
+          assert.equal(parseVcard(vcard).email, "muster@person.alex")
+        });
+      });
+      let error1 = new Error("Selected Value is not in values");
+      let error2 = new Error("Id selectTofill not found")
+      describe("fillSelectionBox", function(){
+        it("has a selection box to fill", function(){
+          assert.notEqual(document.getElementById("selectToFill"), null)
+        });
+        it("fills the selectionbox and selects the correct value", function(){
+          fillSelectionBox("selectToFill", ['element1', 'element2', 'element3'], 'element2')
+          assert.equal(document.getElementById("selectToFill").innerHTML,'<option>element1</option><option>element2</option><option>element3</option>')
+        });
+        it("throws an exeption if the selected value is not in values", function(){
+          assert.notEqual(fillSelectionBox("selectToFill", ['element1', 'element2', 'element3'], 'element4'), null)
+          assert.notEqual(fillSelectionBox("selectToFill", ['element1', 'element2', 'element3'], 'element4'), undefined)
+        });
+        it("throws an exeption if the id does not correspond to a select element", function(){
+          assert.notEqual(fillSelectionBox("selectTofill", ['element1', 'element2', 'element3'], 'element2'), null)
+          assert.notEqual(fillSelectionBox("selectTofill", ['element1', 'element2', 'element3'], 'element2'), undefined)
+        });
+      });
+    </script>
+  <div id="mocha"></div>
+  <script>
+    mocha.run();
+  </script>
+  </body>
+</html>
