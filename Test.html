@@ -59,12 +59,13 @@
           assert.equal(document.getElementById("selectToFill").innerHTML,'<option>element1</option><option>element2</option><option>element3</option>')
         });
         it("throws an exeption if the selected value is not in values", function(){
-          assert.notEqual(fillSelectionBox("selectToFill", ['element1', 'element2', 'element3'], 'element4'), null)
-          assert.notEqual(fillSelectionBox("selectToFill", ['element1', 'element2', 'element3'], 'element4'), undefined)
+          assert.throws(function() {fillSelectionBox("selectToFill", ['element1', 'element2', 'element3'], 'element4')}, Error,"Selected Value is not in values")
+
+          
         });
         it("throws an exeption if the id does not correspond to a select element", function(){
-          assert.notEqual(fillSelectionBox("selectTofill", ['element1', 'element2', 'element3'], 'element2'), null)
-          assert.notEqual(fillSelectionBox("selectTofill", ['element1', 'element2', 'element3'], 'element2'), undefined)
+          assert.throws(function() {fillSelectionBox("selectTofill", ['element1', 'element2', 'element3'], 'element2')}, Error, 'Id selectTofill not found')
+
         });
       });
     </script>
