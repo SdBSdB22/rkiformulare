@@ -24,12 +24,12 @@ jobs:
         cp -a /tmp/dist/* ./
         cat<<ENDOFFILE>version.txt
         git sha: ${GITHUB_SHA:0:7}
-        git tag: ${GITHUB_REF}
+        git tag: $(basename ${GITHUB_REF})
         date: $(date)
         ENDOFFILE
 
         git add .
         git config user.email "noone@example.com"
         git config user.name "Release Bot"
-        git commit -a -m "Tag ${GITHUB_REF}, Sha: ${GITHUB_SHA:0:7}"
+        git commit -a -m "Tag $(basename ${GITHUB_REF}), Sha: ${GITHUB_SHA:0:7}"
         git push -u origin gh-pages
