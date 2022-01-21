@@ -20,6 +20,7 @@ jobs:
         cp *.html *.css *.js /tmp/dist || true
         git checkout gh-pages
         cp CNAME /tmp/dist
+        mkdir -p ./preview
         cd preview
         rm -rf *
         cp -a /tmp/dist/* ./
