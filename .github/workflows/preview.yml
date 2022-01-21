@@ -16,13 +16,11 @@ jobs:
         fetch-depth: '0'
     - name: manageRelease
       run: |
-        mkdir ./preview
-        cd preview
         mkdir /tmp/dist
-        
         cp *.html *.css *.js /tmp/dist || true
         git checkout gh-pages
         cp CNAME /tmp/dist
+        cd preview
         rm -rf *
         cp -a /tmp/dist/* ./
         cat<<ENDOFFILE>version.txt
