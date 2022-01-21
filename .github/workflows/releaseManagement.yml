@@ -1,4 +1,4 @@
-name: ReleaseManagement
+name: release web page
 
 # Controls when the workflow will run
 on:
@@ -9,27 +9,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-  steps:
-  - name: Checkout repository
-    uses: actions/checkout@v2
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
       with:
-      fetch-depth: '0'
-    run: |
-      mkdir /tmp/dist
-      cp *.html *.css *.js /tmp/dist || true
-      git checkout gh-pages
-      rm *
-      cp -a /tmp/dist/* ./
-      cat<<ENDOFFILE>version.txt
-      git sha: ${GITHUB_SHA:0:7}
-      git tag: ${GITHUB_REF}
-      date: $(date)
-      ENDOFFILE
+        fetch-depth: '0'
+    - name: manageRelease
+      run: |
+        mkdir /tmp/dist
+        cp *.html *.css *.js /tmp/dist || true
+        
+        git checkout gh-pages
+        rm -rf *
+        cp -a /tmp/dist/* ./
+        cat<<ENDOFFILE>version.txt
+        git sha: ${GITHUB_SHA:0:7}
+        git tag: ${GITHUB_REF}
+        date: $(date)
+        ENDOFFILE
 
-      git add *
-      git config user.email "noone@example.com"
-      git config user.name "Release Bot"
-      git commit -a -m "Tag ${GITHUB_REF}, Sha: ${GITHUB_SHA:0:7}"
-      git push -u origin gh-pages
-      
+        git add .
+        git config user.email "noone@example.com"
+        git config user.name "Release Bot"
+        git commit -a -m "Tag ${GITHUB_REF}, Sha: ${GITHUB_SHA:0:7}"
+        git push -u origin gh-pages
