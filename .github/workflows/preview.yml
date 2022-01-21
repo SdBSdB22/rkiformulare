@@ -17,7 +17,6 @@ jobs:
     - name: manageRelease
       run: |
         mkdir /tmp/dist
-        rm ./preview
         mkdir ./preview
         cd preview
         
