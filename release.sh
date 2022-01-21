@@ -1,8 +1,8 @@
 #/bin/sh
 
-read -p "Enter release version (current version is $(git describe|cut -f1 -d-), press just enter for preview release): v"
+git fetch --tags
 
-echo "X${REPLY}X"
+read -p "Enter release version (current version is $(git describe|cut -f1 -d-), press just enter for preview release): v"
 
 if [ -z "${REPLY}" ]
 then
