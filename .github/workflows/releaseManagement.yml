@@ -18,9 +18,9 @@ jobs:
       run: |
         mkdir /tmp/dist
         cp *.html *.css *.js /tmp/dist || true
-        cp ./preview /tmp/dist || true
 
         git checkout gh-pages
+        cp  -a ./preview /tmp/dist || true
         cp CNAME /tmp/dist
         rm -rf *
         cp -a /tmp/dist/* ./
