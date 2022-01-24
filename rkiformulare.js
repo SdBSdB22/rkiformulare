@@ -43,10 +43,10 @@ function fillRKIFormular(){
     const PrintTimer = setTimeout(window.print, 500);
   }
   document.getElementById("anamnese-anschrift").innerHTML = urlParams.get('address') ? urlParams.get('address') : ""
-  document.getElementById("anamnese-name-vorname").innerHTML = (urlParams.get('secondName') ? urlParams.get('firstName') : "                                            ")+", "+(urlParams.get('firstName') ? urlParams.get('firstName') : "");
+  document.getElementById("anamnese-name-vorname").innerHTML = (urlParams.get('secondName') ? urlParams.get('secondName') : "                                            ")+", "+(urlParams.get('firstName') ? urlParams.get('firstName') : "");
   document.getElementById("anamnese-geburtsdatum").innerHTML = urlParams.get('birthdate') ? urlParams.get('birthdate') : "";
   document.getElementById("einwilligung-anschrift").innerHTML = urlParams.get('address') ? urlParams.get('address') : ""
-  document.getElementById("einwilligung-name-vorname").innerHTML = (urlParams.get('secondName') ? urlParams.get('firstName') : "                                            ")+", "+(urlParams.get('firstName') ? urlParams.get('firstName') : "");
+  document.getElementById("einwilligung-name-vorname").innerHTML = (urlParams.get('secondName') ? urlParams.get('secondName') : "                                            ")+", "+(urlParams.get('firstName') ? urlParams.get('firstName') : "");
   document.getElementById("einwilligung-geburtsdatum").innerHTML = urlParams.get('birthdate') ? urlParams.get('birthdate') : "";
   document.getElementById("einwilligung-ort-datum").innerHTML = urlParams.get('date') ? urlParams.get('date') : "";
 
