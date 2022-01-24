@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -5,21 +6,22 @@
     <link rel="stylesheet" href="rkiformulare.css">
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <title>qr scanner</title>
-
   </head>
   <body class="container">
     <h1>RKI Formulare</h1>
     <div class="grid">
-      <button onclick="openCamera()">QR-Code scannen</button>
+      <button>QR-Code scannen</button>
       <div>
         <label for="BrowseImage"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
-        <Input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
+        <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
        </div>
     </div>
     <div id="link"></div>
+    
+    <div id="reader" width="600px"></div>
     <script type="module">
       import {parseVcard} from './rkiformulare.js';
-      
+
       function openCamera() {
         alert("scanning...");
         const html5QrCode = new Html5Qrcode("reader");
@@ -29,14 +31,13 @@
          let user = parseVcard(decodedText);
          const d = new Date();
          RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+d.getMonth()+"."+d.getFullYear();
-         RKIlink.innerHTML = "Link zum RKI Formular"
+         RKIlink.innerHTML = "Link zum RKI Formular";
          document.getElementById("link").appendChild(RKIlink);
         };
         const config = { fps: 10, qrbox: { width: 350, height: 350 } };
         html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
         }
+      document.querySelector('button').addEventListener('click', openCamera);
     </script>
-    <div id="reader" width="600px"></div>
-    
   </body>
 </html>
