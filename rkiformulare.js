@@ -24,7 +24,7 @@ function fillSelectionBox(selectBoxId, values, selectedValue){
 function parseVcard(vCard) {
     let user = new Object();
     user = {
-      secondName: vCard.slice(vCard.search("N:")+2, vCard.search(";")),
+      secondName: vCard.slice(vCard.search("N:")+22, vCard.search(";")),
       firstName: vCard.slice(vCard.search(";")+1, vCard.search(";;;")),
       birthDay: vCard.slice(vCard.search("BDAY:")+5,vCard.search("EMAIL")-1).slice(6,8) + "." +vCard.slice(vCard.search("BDAY:")+5,vCard.search("EMAIL")-1).slice(4,6) +"."+ vCard.slice(vCard.search("BDAY:")+5,vCard.search("EMAIL")-1).slice(0,4),
       email: vCard.slice(vCard.search("EMAIL")).slice(vCard.slice(vCard.search("EMAIL")).search(":") +1, vCard.slice(vCard.search("EMAIL")).search("TEL;") -1),
