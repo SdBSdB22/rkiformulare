@@ -3,6 +3,8 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="pico.min.css">
     <link rel="stylesheet" href="rkiformulare.css">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="./rkiformulare.js" type="text/javascript"></script>
     <title>qr scanner</title>
 
   </head>
@@ -15,10 +17,27 @@
         <Input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
        </div>
     </div>
-    <script>
+    <div id="link"></div>
+    <script type="module">
+      import {parseVcard} from './rkiformulare.js'
+      
       function openCamera() {
         alert("scanning...");
-      }
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+         html5QrCode.stop();
+         let RKIlink = document.createElement("a");
+         let user = parseVcard(decodedText);
+         const d = new Date();
+         RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+d.getMonth()+"."+d.getFullYear();
+         RKIlink.innerHTML = "Link zum RKI Formular"
+         document.getElementById("link").appendChild(RKIlink);
+        };
+        const config = { fps: 10, qrbox: { width: 350, height: 350 } };
+        html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+        }
     </script>
+    <div id="reader" width="600px"></div>
+    
   </body>
 </html>

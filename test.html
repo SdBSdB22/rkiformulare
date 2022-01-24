@@ -16,15 +16,13 @@
   </head>
   <body class="container">
     <select id="selectToFill"></select>
+
     <script type="module">
       import * as module from './rkiformulare.js';
       let Module = new Object();
       Module = module;
       console.log(Module)
-    </script>
-
-    <script type="module">
-
+      
       const vcard = "Last Match: BEGIN:VCARD VERSION:4.0 N:Musterperson;Alex;;; FN:Alex Musterperson BDAY:19870605 EMAIL;TYPE=home:muster@person.alex TEL;TYPE='cell,home':055544332211 ADR;TYPE=home:;;Hauptstr. 23;Plauen;;42230; REV:20220110T082823Z END:VCARD"
 
       describe("parseVcard", function() {
