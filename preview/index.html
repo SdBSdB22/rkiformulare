@@ -32,7 +32,7 @@
          * { id: "id", label: "label" }
          */
         if (devices && devices.length) {
-          cameraId = devices[0];
+          cameraId = devices[0];l
           cameras = devices;
           for(let i = 0; i < cameras.length; i++){
             cameralabels[i] = cameras[i].label;
@@ -58,6 +58,7 @@
          document.getElementById("link").appendChild(RKIlink);
         };
         const config = { fps: 10, qrbox: { width: 350, height: 350 } };
+        document.getElementById("cameraBox").innerHTML = '';
         fillSelectionBox("cameraBox", cameralabels ,cameraId.label);
         html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
         
