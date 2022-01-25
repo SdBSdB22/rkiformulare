@@ -79,10 +79,11 @@
 
         const imageFile = e.target.files[0];
         // Scan QR Code
-        html5QrCode.scanFile(imageFile, true)
-        .then(decodedText => {
+        html5QrCode.scanFile(imageFile, true
+        ).then(decodedText => {
           // success, use decodedText
           console.log(decodedText);
+          document.getElementById("reader").hidden = true
           let RKIlink = document.createElement("a");
           let user = parseVcard(decodedText);
           const d = new Date();
