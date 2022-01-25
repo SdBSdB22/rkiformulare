@@ -32,7 +32,7 @@
          * { id: "id", label: "label" }
          */
         if (devices && devices.length) {
-          cameraId = devices[0];l
+          cameraId = devices[0];
           cameras = devices;
           for(let i = 0; i < cameras.length; i++){
             cameralabels[i] = cameras[i].label;
@@ -47,11 +47,11 @@
       });
       
       function openCamera() {
-        document.getElementById("cameraBox").hidden = false;
         const html5QrCode = new Html5Qrcode("reader");
+        document.getElementById("cameraBox").hidden = false;
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-         document.getElementById("cameraBox").hidden = true;
          html5QrCode.stop();
+         document.getElementById("cameraBox").hidden = true;
          let RKIlink = document.createElement("a");
          let user = parseVcard(decodedText);
          const d = new Date();
@@ -66,8 +66,8 @@
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
-        //document.getElementById("cameraBox").innerHTML = "";
-        let i = document.querySelector('select').selectedIndex;
+        document.getElementById("cameraBox").innerHTML = "";
+        let i = document.querySelector('select').selectedIndex
         cameraId = cameras[i];
         openCamera();
       });
