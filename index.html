@@ -60,13 +60,13 @@
          document.getElementById("link").appendChild(RKIlink);
         };
         const config = { fps: 10, qrbox: { width: 350, height: 350 } };
+        document.getElementById("cameraBox").innerHTML = "";
         fillSelectionBox("cameraBox", cameralabels ,cameraId.label);
         html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
         
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
-        document.getElementById("cameraBox").innerHTML = "";
         let i = document.querySelector('select').selectedIndex
         cameraId = cameras[i];
         openCamera();
