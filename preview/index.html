@@ -19,7 +19,7 @@
     <div id="link"></div>
     
     <div id="reader" width="600px"></div>
-    <select id="cameraBox"></select>
+    <select id="cameraBox" hidden></select>
     <script type="module">
       import {parseVcard, fillSelectionBox} from './rkiformulare.js';
         // This method will trigger user permissions
@@ -47,8 +47,10 @@
       });
       
       function openCamera() {
+        document.getElementById("cameraBox").hidden = false;
         const html5QrCode = new Html5Qrcode("reader");
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+         document.getElementById("cameraBox").hidden = true;
          html5QrCode.stop();
          let RKIlink = document.createElement("a");
          let user = parseVcard(decodedText);
@@ -58,13 +60,13 @@
          document.getElementById("link").appendChild(RKIlink);
         };
         const config = { fps: 10, qrbox: { width: 350, height: 350 } };
-        document.getElementById("cameraBox").innerHTML = '';
         fillSelectionBox("cameraBox", cameralabels ,cameraId.label);
         html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
         
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
+        document.getElementById("cameraBox").innerHTML = '';
         let i = document.querySelector('select').selectedIndex
         cameraId = cameras[i];
         openCamera();
