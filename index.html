@@ -66,8 +66,8 @@
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
-        document.getElementById("cameraBox").innerHTML = '';
-        let i = document.querySelector('select').selectedIndex
+        document.getElementById("cameraBox").innerHTML = "";
+        let i = document.querySelector('select').selectedIndex;
         cameraId = cameras[i];
         openCamera();
       });
