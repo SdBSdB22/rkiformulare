@@ -13,7 +13,7 @@
       <button>QR-Code scannen</button>
       <div>
         <label for="BrowseImage"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
-        <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
+        <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan" id="QR-Code-fileInput">
        </div>
     </div>
     <div id="link"></div>
@@ -22,55 +22,75 @@
     <select id="cameraBox" hidden></select>
     <script type="module">
       import {parseVcard, fillSelectionBox} from './rkiformulare.js';
-        // This method will trigger user permissions
       let cameraId;
       let cameras;
       let cameralabels = [];
-      Html5Qrcode.getCameras().then(devices => {
-        /**
-         * devices would be an array of objects of type:
-         * { id: "id", label: "label" }
-         */
-        if (devices && devices.length) {
-          cameraId = devices[0];
-          cameras = devices;
-          for(let i = 0; i < cameras.length; i++){
-            cameralabels[i] = cameras[i].label;
-          }
-          console.log(cameraId);
-          console.log(cameras);
-          console.log(cameralabels);
-          // .. use this to start scanning.
-        }
-      }).catch(err => {
-        // handle err
-      });
-      
+      let j = 0;
+      const html5QrCode = new Html5Qrcode("reader");
       function openCamera() {
-        const html5QrCode = new Html5Qrcode("reader");
-        document.getElementById("cameraBox").hidden = false;
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-         html5QrCode.stop();
-         document.getElementById("cameraBox").hidden = true;
-         let RKIlink = document.createElement("a");
-         let user = parseVcard(decodedText);
-         const d = new Date();
-         RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
-         RKIlink.innerHTML = "Link zum RKI Formular";
-         document.getElementById("link").appendChild(RKIlink);
-        };
-        const config = { fps: 10, qrbox: { width: 350, height: 350 } };
-        document.getElementById("cameraBox").innerHTML = "";
-        fillSelectionBox("cameraBox", cameralabels ,cameraId.label);
-        html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
-        
+        Html5Qrcode.getCameras().then(devices => {
+          /**
+           * devices would be an array of objects of type:
+           * { id: "id", label: "label" }
+           */
+          if (devices && devices.length) {
+            let l = 0;
+            cameraId = devices[j];
+            cameras = devices;
+            for(let i = 0; i < cameras.length; i++){
+              cameralabels[i] = cameras[i].label;
+              l++;
+            }
+            cameralabels[l] = "-----Kamera Wechseln-----"
+            console.log(cameraId);
+            console.log(cameras);
+            console.log(cameralabels);
+          }
+          document.getElementById("cameraBox").hidden = false;
+          const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            html5QrCode.stop();
+            document.getElementById("cameraBox").hidden = true;
+            let RKIlink = document.createElement("a");
+            let user = parseVcard(decodedText);
+            const d = new Date();
+            RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+            RKIlink.innerHTML = "Link zum RKI Formular";
+            document.getElementById("link").appendChild(RKIlink);
+          };
+          const config = { fps: 10, qrbox: { width: 350, height: 350 } };
+          document.getElementById("cameraBox").innerHTML = "";
+          fillSelectionBox("cameraBox", cameralabels ,"-----Kamera Wechseln-----");
+          html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
+          });
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
-        let i = document.querySelector('select').selectedIndex
-        cameraId = cameras[i];
+        j = document.querySelector('select').selectedIndex
         openCamera();
       });
+      document.querySelector('input').addEventListener('change', e => {
+        if (e.target.files.length == 0) {
+          return;
+        }
+
+        const imageFile = e.target.files[0];
+        // Scan QR Code
+        html5QrCode.scanFile(imageFile, true)
+        .then(decodedText => {
+          // success, use decodedText
+          console.log(decodedText);
+          let RKIlink = document.createElement("a");
+          let user = parseVcard(decodedText);
+          const d = new Date();
+          RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+          RKIlink.innerHTML = "Link zum RKI Formular";
+          document.getElementById("link").appendChild(RKIlink);
+        })
+        .catch(err => {
+          // failure, handle it.
+          console.log(`Error scanning file. Reason: ${err}`)
+        });
+});
     </script>
   </body>
 </html>
