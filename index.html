@@ -34,11 +34,14 @@
            * { id: "id", label: "label" }
            */
           if (devices && devices.length) {
+            let l = 0;
             cameraId = devices[j];
             cameras = devices;
             for(let i = 0; i < cameras.length; i++){
               cameralabels[i] = cameras[i].label;
+              l++;
             }
+            cameralabels[l] = "-----Kamera Wechseln-----"
             console.log(cameraId);
             console.log(cameras);
             console.log(cameralabels);
@@ -56,7 +59,7 @@
           };
           const config = { fps: 10, qrbox: { width: 350, height: 350 } };
           document.getElementById("cameraBox").innerHTML = "";
-          fillSelectionBox("cameraBox", cameralabels ,cameraId.label);
+          fillSelectionBox("cameraBox", cameralabels ,"-----Kamera Wechseln-----");
           html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
           });
         }
