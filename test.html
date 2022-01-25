@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html>
   <head>
 	  <title>Santiagos Webseite</title>
+    <link rel="stylesheet" href="pico.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
     <script>
@@ -13,15 +15,13 @@
       let assert = chai.assert;
     </script>
   </head>
-  <body>
+  <body class="container">
     <select id="selectToFill"></select>
 
-    <script type="module" src="rkiformulare.js"></script>
-
-    <script>
-      import {parseVcard} from './rkiformulare.js';
-
-      const vcard = "Last Match: BEGIN:VCARD VERSION:4.0 N:Musterperson;Alex;;; FN:Alex Musterperson BDAY:19870605 EMAIL;TYPE=home:muster@person.alex TEL;TYPE='cell,home':055544332211 ADR;TYPE=home:;;Hauptstr. 23;Plauen;;42230; REV:20220110T082823Z END:VCARD"
+    <script type="module">
+      import {parseVcard, fillSelectionBox} from './rkiformulare.js';
+      
+      const vcard = "Last Match: BEGIN:VCARD VERSION:4.0 N:Musterperson;Alex;;; FN:Alex Musterperson BDAY:19870605 EMAIL;TYPE=home:muster@person.alex TEL;TYPE='cell,home':055544332211 ADR;TYPE=home:;;Hauptstr. 23;Plauen;;42230; REV:20220110T082823Z END:VCARD";
 
       describe("parseVcard", function() {
         it("parses the second name correctly", function() {
@@ -49,8 +49,6 @@
           assert.equal(parseVcard(vcard).email, "muster@person.alex")
         });
       });
-      let error1 = new Error("Selected Value is not in values");
-      let error2 = new Error("Id selectTofill not found")
       describe("fillSelectionBox", function(){
         it("has a selection box to fill", function(){
           assert.notEqual(document.getElementById("selectToFill"), null)
@@ -71,7 +69,7 @@
       });
     </script>
   <div id="mocha"></div>
-  <script>
+  <script type="module">
     mocha.run();
   </script>
   </body>
