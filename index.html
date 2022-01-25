@@ -26,7 +26,7 @@
       let cameras;
       let cameralabels = [];
       let j = 0;
-      const KameraWechsel= "-----Kamera Wechseln-----";
+      const changeCameraLabel= "-----Kamera Wechseln-----";
       const html5QrCode = new Html5Qrcode("reader");
       function openCamera() {
         Html5Qrcode.getCameras().then(devices => {
@@ -42,7 +42,7 @@
               cameralabels[i] = cameras[i].label;
               l++;
             }
-            cameralabels[l] = KameraWechsel;
+            cameralabels[l] = changeCameraLabel;
             console.log(cameraId);
             console.log(cameras);
             console.log(cameralabels);
@@ -62,7 +62,7 @@
           };
           const config = { fps: 10, qrbox: { width: 350, height: 350 } };
           document.getElementById("cameraBox").innerHTML = "";
-          fillSelectionBox("cameraBox", cameralabels ,KameraWechsel);
+          fillSelectionBox("cameraBox", cameralabels ,changeCameraLabel);
           html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
           });
         }
@@ -83,7 +83,7 @@
         ).then(decodedText => {
           // success, use decodedText
           console.log(decodedText);
-          document.getElementById("reader").hidden = true
+          document.getElementById("reader").hidden = true;
           let RKIlink = document.createElement("a");
           let user = parseVcard(decodedText);
           const d = new Date();
