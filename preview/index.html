@@ -19,25 +19,55 @@
     <div id="link"></div>
     
     <div id="reader" width="600px"></div>
+    <select id="cameraBox"></select>
     <script type="module">
-      import {parseVcard} from './rkiformulare.js';
-
+      import {parseVcard, fillSelectionBox} from './rkiformulare.js';
+        // This method will trigger user permissions
+      let cameraId;
+      let cameras;
+      let cameralabels = [];
+      Html5Qrcode.getCameras().then(devices => {
+        /**
+         * devices would be an array of objects of type:
+         * { id: "id", label: "label" }
+         */
+        if (devices && devices.length) {
+          cameraId = devices[0];
+          cameras = devices;
+          for(let i = 0; i < cameras.length; i++){
+            cameralabels[i] = cameras[i].label;
+          }
+          console.log(cameraId);
+          console.log(cameras);
+          console.log(cameralabels);
+          // .. use this to start scanning.
+        }
+      }).catch(err => {
+        // handle err
+      });
+      
       function openCamera() {
-        alert("scanning...");
         const html5QrCode = new Html5Qrcode("reader");
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
          html5QrCode.stop();
          let RKIlink = document.createElement("a");
          let user = parseVcard(decodedText);
          const d = new Date();
-         RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+d.getMonth()+"."+d.getFullYear();
+         RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
          RKIlink.innerHTML = "Link zum RKI Formular";
          document.getElementById("link").appendChild(RKIlink);
         };
         const config = { fps: 10, qrbox: { width: 350, height: 350 } };
-        html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+        fillSelectionBox("cameraBox", cameralabels ,cameraId.label);
+        html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
+        
         }
       document.querySelector('button').addEventListener('click', openCamera);
+      document.querySelector('select').addEventListener('change', function(){
+        let i = document.querySelector('select').selectedIndex
+        cameraId = cameras[i];
+        openCamera();
+      });
     </script>
   </body>
 </html>
