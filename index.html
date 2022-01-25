@@ -13,7 +13,7 @@
       <button>QR-Code scannen</button>
       <div>
         <label for="BrowseImage"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
-        <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan">
+        <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan" id="QR-Code-fileInput">
        </div>
     </div>
     <div id="link"></div>
@@ -26,7 +26,7 @@
       let cameras;
       let cameralabels = [];
       let j = 0;
-      
+      const html5QrCode = new Html5Qrcode("reader");
       function openCamera() {
         Html5Qrcode.getCameras().then(devices => {
           /**
@@ -43,7 +43,6 @@
             console.log(cameras);
             console.log(cameralabels);
           }
-          const html5QrCode = new Html5Qrcode("reader");
           document.getElementById("cameraBox").hidden = false;
           const qrCodeSuccessCallback = (decodedText, decodedResult) => {
             html5QrCode.stop();
@@ -66,6 +65,29 @@
         j = document.querySelector('select').selectedIndex
         openCamera();
       });
+      document.querySelector('input').addEventListener('change', e => {
+        if (e.target.files.length == 0) {
+          return;
+        }
+
+        const imageFile = e.target.files[0];
+        // Scan QR Code
+        html5QrCode.scanFile(imageFile, true)
+        .then(decodedText => {
+          // success, use decodedText
+          console.log(decodedText);
+          let RKIlink = document.createElement("a");
+          let user = parseVcard(decodedText);
+          const d = new Date();
+          RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+          RKIlink.innerHTML = "Link zum RKI Formular";
+          document.getElementById("link").appendChild(RKIlink);
+        })
+        .catch(err => {
+          // failure, handle it.
+          console.log(`Error scanning file. Reason: ${err}`)
+        });
+});
     </script>
   </body>
 </html>
