@@ -97,7 +97,7 @@
           window.sessionStorage.setItem('firstName', user.firstName);
           window.sessionStorage.setItem('secondName', user.secondName);
           window.sessionStorage.setItem('birthdate', user.birthDay);
-          window.sessionStorage.setItem('address', user.street +", "+ user.city+", " +user.zipCode);
+          window.sessionStorage.setItem('address', user.street +", "+user.zipCode+" "+ user.city );
           window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
           RKIlink.href = './rkiformulare.html?openPrintDialog=true';
           RKIlink.innerHTML = "Link zum RKI Formular";
