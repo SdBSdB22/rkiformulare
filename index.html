@@ -10,9 +10,9 @@
   <body class="container">
     <h1>RKI Formulare</h1>
     <div class="grid">
-      <button>QR-Code scannen</button>
+      <button id="button">QR-Code scannen</button>
       <div>
-        <label for="BrowseImage"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
+        <label for="BrowseImage" id="button"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
         <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan" id="QR-Code-fileInput">
        </div>
     </div>
@@ -54,7 +54,13 @@
             let RKIlink = document.createElement("a");
             let user = parseVcard(decodedText);
             const d = new Date();
-            RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street +", "+ user.city+", " +user.zipCode+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+            window.sessionStorage.setItem('firstName', user.firstName);
+            window.sessionStorage.setItem('secondName', user.secondName);
+            window.sessionStorage.setItem('birthdate', user.birthDay);
+            window.sessionStorage.setItem('address', user.street +", "+ user.city+", " +user.zipCode);
+            window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
+
+            RKIlink.href = './rkiformulare.html?openPrintDialog=true';
             RKIlink.innerHTML = "Link zum RKI Formular";
             RKIlink.role = "button"
             RKIlink.style.fontSize= "3em";
@@ -73,6 +79,7 @@
         openCamera();
       });
       document.querySelector('input').addEventListener('change', e => {
+        html5QrCode.stop();
         if (e.target.files.length == 0) {
           return;
         }
@@ -87,7 +94,12 @@
           let RKIlink = document.createElement("a");
           let user = parseVcard(decodedText);
           const d = new Date();
-          RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street +", "+ user.city+", " +user.zipCode+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+          window.sessionStorage.setItem('firstName', user.firstName);
+          window.sessionStorage.setItem('secondName', user.secondName);
+          window.sessionStorage.setItem('birthdate', user.birthDay);
+          window.sessionStorage.setItem('address', user.street +", "+ user.city+", " +user.zipCode);
+          window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
+          RKIlink.href = './rkiformulare.html?openPrintDialog=true';
           RKIlink.innerHTML = "Link zum RKI Formular";
           RKIlink.role = "button"
           document.getElementById("link").appendChild(RKIlink);

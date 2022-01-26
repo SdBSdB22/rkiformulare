@@ -31,7 +31,7 @@ function parseVcard(vCard) {
       phone: vCard.slice(vCard.search("TEL;")).slice(vCard.slice(vCard.search("TEL;")).search(":")+1,vCard.slice(vCard.search("TEL;")).search("ADR")-1),
       street: vCard.slice(vCard.search(":;;")+3).slice(0,vCard.slice(vCard.search(":;;")+3).search(";")),
       city: vCard.slice(vCard.search(":;;")+3).slice(vCard.slice(vCard.search(":;;")+3).search(";")+1,vCard.slice(vCard.search(":;;")+3).search(";;")),
-      zipCode: vCard.slice(vCard.search(":;;")+3).slice(vCard.slice(vCard.search(":;;")+3).search(";;")+2,vCard.slice(vCard.search(":;;")+3).search("; REV"))
+      zipCode: vCard.slice(vCard.search(":;;")+3).slice(vCard.slice(vCard.search(":;;")+3).search(";;")+2,vCard.slice(vCard.search(":;;")+3).search(";;")+7)
     }
     return user;
 
@@ -40,15 +40,15 @@ function parseVcard(vCard) {
 function fillRKIFormular(){
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('openPrintDialog') == "true"){
-    const PrintTimer = setTimeout(window.print, 500);
+    const PrintTimer = setTimeout(window.print, 1000);
   }
-  document.getElementById("anamnese-anschrift").innerHTML = urlParams.get('address') ? urlParams.get('address') : ""
-  document.getElementById("anamnese-name-vorname").innerHTML = (urlParams.get('secondName') ? urlParams.get('secondName') : "                                            ")+", "+(urlParams.get('firstName') ? urlParams.get('firstName') : "");
-  document.getElementById("anamnese-geburtsdatum").innerHTML = urlParams.get('birthdate') ? urlParams.get('birthdate') : "";
-  document.getElementById("einwilligung-anschrift").innerHTML = urlParams.get('address') ? urlParams.get('address') : ""
-  document.getElementById("einwilligung-name-vorname").innerHTML = (urlParams.get('secondName') ? urlParams.get('secondName') : "                                            ")+", "+(urlParams.get('firstName') ? urlParams.get('firstName') : "");
-  document.getElementById("einwilligung-geburtsdatum").innerHTML = urlParams.get('birthdate') ? urlParams.get('birthdate') : "";
-  document.getElementById("einwilligung-ort-datum").innerHTML = urlParams.get('date') ? urlParams.get('date') : "";
+  document.getElementById("anamnese-anschrift").innerHTML = window.sessionStorage.getItem('address');
+  document.getElementById("anamnese-name-vorname").innerHTML = window.sessionStorage.getItem("secondName") +", "+window.sessionStorage.getItem("firstName");
+  document.getElementById("anamnese-geburtsdatum").innerHTML = window.sessionStorage.getItem("birthdate");
+  document.getElementById("einwilligung-anschrift").innerHTML = window.sessionStorage.getItem('address');
+  document.getElementById("einwilligung-name-vorname").innerHTML = window.sessionStorage.getItem("secondName") +", "+window.sessionStorage.getItem("firstName");
+  document.getElementById("einwilligung-geburtsdatum").innerHTML = window.sessionStorage.getItem("birthdate");
+  document.getElementById("einwilligung-ort-datum").innerHTML = window.sessionStorage.getItem('date');
 
 
 }
