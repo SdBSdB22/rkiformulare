@@ -74,8 +74,7 @@
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
-        j = document.querySelector('select').selectedIndex
-        html5QrCode.stop();
+        j = document.querySelector('select').selectedIndex;
         openCamera();
       });
       document.querySelector('input').addEventListener('change', e => {
