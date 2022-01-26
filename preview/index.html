@@ -26,6 +26,7 @@
       let cameras;
       let cameralabels = [];
       let j = 0;
+      const changeCameraLabel= "-----Kamera Wechseln-----";
       const html5QrCode = new Html5Qrcode("reader");
       function openCamera() {
         Html5Qrcode.getCameras().then(devices => {
@@ -41,7 +42,7 @@
               cameralabels[i] = cameras[i].label;
               l++;
             }
-            cameralabels[l] = "-----Kamera Wechseln-----";
+            cameralabels[l] = changeCameraLabel;
             console.log(cameraId);
             console.log(cameras);
             console.log(cameralabels);
@@ -55,11 +56,13 @@
             const d = new Date();
             RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
             RKIlink.innerHTML = "Link zum RKI Formular";
+            RKIlink.style.color = "#f00";
+            RKIlink.style.fontSize= "3em";
             document.getElementById("link").appendChild(RKIlink);
           };
           const config = { fps: 10, qrbox: { width: 350, height: 350 } };
           document.getElementById("cameraBox").innerHTML = "";
-          fillSelectionBox("cameraBox", cameralabels ,"-----Kamera Wechseln-----");
+          fillSelectionBox("cameraBox", cameralabels ,changeCameraLabel);
           html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
           });
         }
@@ -76,14 +79,15 @@
 
         const imageFile = e.target.files[0];
         // Scan QR Code
-        html5QrCode.scanFile(imageFile, true)
-        .then(decodedText => {
+        html5QrCode.scanFile(imageFile, true
+        ).then(decodedText => {
           // success, use decodedText
           console.log(decodedText);
+          document.getElementById("reader").hidden = true;
           let RKIlink = document.createElement("a");
           let user = parseVcard(decodedText);
           const d = new Date();
-          RKIlink.href = 'https://rkiformulare.online/rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+          RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
           RKIlink.innerHTML = "Link zum RKI Formular";
           document.getElementById("link").appendChild(RKIlink);
         })
