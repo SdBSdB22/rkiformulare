@@ -74,11 +74,11 @@
         }
       document.querySelector('button').addEventListener('click', openCamera);
       document.querySelector('select').addEventListener('change', function(){
-        j = document.querySelector('select').selectedIndex;
+        j = document.querySelector('select').selectedIndex
+        html5QrCode.stop();
         openCamera();
       });
       document.querySelector('input').addEventListener('change', e => {
-        html5QrCode.stop();
         if (e.target.files.length == 0) {
           return;
         }
