@@ -6,6 +6,13 @@
 #cameraBox {
     margin-top: 2em;
 }
+#spacer{
+    margin-bottom: 50px;
+}
+#screenshot {
+    border: 2px solid black;
+    margin-bottom: 50px;
+}
 /*
 #button {
     height: 5rem;
