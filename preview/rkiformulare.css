@@ -1,7 +1,19 @@
 #label_link {
     opacity: 1;
     width: 100%;
+    /*height: 5rem;*/
 }
 #cameraBox {
     margin-top: 2em;
 }
+#spacer{
+    margin-bottom: 50px;
+}
+/*
+#button {
+    height: 5rem;
+}
+#coolID{
+    vertical-align: top;
+    display: inline;
+}*/

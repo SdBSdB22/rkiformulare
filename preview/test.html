@@ -21,7 +21,7 @@
     <script type="module">
       import {parseVcard, fillSelectionBox} from './rkiformulare.js';
       
-      const vcard = "Last Match: BEGIN:VCARD VERSION:4.0 N:Musterperson;Alex;;; FN:Alex Musterperson BDAY:19870605 EMAIL;TYPE=home:muster@person.alex TEL;TYPE='cell,home':055544332211 ADR;TYPE=home:;;Hauptstr. 23;Plauen;;42230; REV:20220110T082823Z END:VCARD";
+      const vcard = "Last Match: BEGIN:VCARD VERSION:4.0 N:Musterperson;Alex;;; FN:Alex Musterperson BDAY:19870605 EMAIL;TYPE=home:muster@person.alex TEL;TYPE='cell,home':055544332211 ADR;TYPE=home:;;Hauptstr. 23;Plauen;;42230;REV:20220110T082823Z END:VCARD";
 
       describe("parseVcard", function() {
         it("parses the second name correctly", function() {

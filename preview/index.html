@@ -9,10 +9,30 @@
   </head>
   <body class="container">
     <h1>RKI Formulare</h1>
+    <p>Auf dieser Seite kansst du mithilfe der Corona-Warn-App RKI-Formulare automatisch mit deinen Daten ausfüllen. Drücke einfach einen der beiden Knöpfe und scanne dann den QR code von dem Testprofil.</p>
+
+    <details>
+      <summary>Wie erstelle ich mein Corona-Warn-App-Testprofil?</summary>
+      <p>Um ein Schnelltest-Profil anzulegen, können Nutzer*innen auf der Startseite ihrer Corona-Warn-App unter „Test registrieren“ 
+        auf Nächste Schritte gehen. Dort finden Sie den Bereich „Schnelltest-Profil anlegen“.</p>       
+      
+      <div id="spacer">
+        <img id="screenshot" src="Schritt1.jpeg">
+        <img id="screenshot" src="Schritt2.jpeg">
+      </div>
+      
+      <p>Dortkönnen sie ihre persönlichen Daten, wie Name, Adresse und Telefonnummer, eintragen. Wenn alles eingetragen ist, 
+        können sie die Daten speichern. Die Corona-Warn-App erstellt daraufhin einen QR-Code aus den Daten, den Nutzer*innen an den Teststellen vorzeigen können.</p>
+        
+      <p>Einmal angelegt, bleibt das Profil bestehen und kann bei jedem Test wieder vorgezeigt werden. Das Profil ist nur auf dem jeweils eigenen Smartphone in der Corona-Warn-App abgespeichert! Nutzer*innen 
+        können es wieder entfernen, indem sie unter iOS im Schnelltest-Bereich der Corona-Warn-App auf ihr Schnelltest-Profil gehen und dort „Schnelltest-Profil entfernen“ auswählen. Android-Nutzer*innen können 
+        das Profil entfernen, indem sie im Schnelltest-Bereich der Corona-Warn-App auf ihr Schnelltest-Profil gehen und dort im 3-Punkte-Menü "Entfernen" auswählen.</p>
+
+    </details>
     <div class="grid">
-      <button>QR-Code scannen</button>
+      <button id="button">QR-Code scannen</button>
       <div>
-        <label for="BrowseImage"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
+        <label for="BrowseImage" id="button"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
         <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan" id="QR-Code-fileInput">
        </div>
     </div>
@@ -29,6 +49,7 @@
       const changeCameraLabel= "-----Kamera Wechseln-----";
       const html5QrCode = new Html5Qrcode("reader");
       function openCamera() {
+        document.getElementById("reader").hidden = false;
         Html5Qrcode.getCameras().then(devices => {
           /**
            * devices would be an array of objects of type:
@@ -54,7 +75,13 @@
             let RKIlink = document.createElement("a");
             let user = parseVcard(decodedText);
             const d = new Date();
-            RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street +", "+ user.city+", " +user.zipCode+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+            window.sessionStorage.setItem('firstName', user.firstName);
+            window.sessionStorage.setItem('secondName', user.secondName);
+            window.sessionStorage.setItem('birthdate', user.birthDay);
+            window.sessionStorage.setItem('address', user.street +", "+ user.city+", " +user.zipCode);
+            window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
+
+            RKIlink.href = './rkiformulare.html?openPrintDialog=true';
             RKIlink.innerHTML = "Link zum RKI Formular";
             RKIlink.role = "button"
             RKIlink.style.fontSize= "3em";
@@ -87,16 +114,36 @@
           let RKIlink = document.createElement("a");
           let user = parseVcard(decodedText);
           const d = new Date();
-          RKIlink.href = './rkiformulare.html?firstName=' + user.firstName + '&secondName='+user.secondName+'&birthdate='+user.birthDay+'&address='+user.street +", "+ user.city+", " +user.zipCode+'&date='+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear() + "&openPrintDialog=true";
+          window.sessionStorage.setItem('firstName', user.firstName);
+          window.sessionStorage.setItem('secondName', user.secondName);
+          window.sessionStorage.setItem('birthdate', user.birthDay);
+          window.sessionStorage.setItem('address', user.street +", "+user.zipCode+" "+ user.city );
+          window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
+          RKIlink.href = './rkiformulare.html?openPrintDialog=true';
           RKIlink.innerHTML = "Link zum RKI Formular";
           RKIlink.role = "button"
+          RKIlink.style.fontSize= "3em";
           document.getElementById("link").appendChild(RKIlink);
         })
         .catch(err => {
           // failure, handle it.
           console.log(`Error scanning file. Reason: ${err}`)
         });
-});
+      });
     </script>
+    <div id="spacer">
+      <h4>Teile unsere Webseite</h4>
+      <a class="twitter-share-button"
+      href="https://twitter.com/intent/tweet?text=https://www.rkiformulare.online/%20guckt%20euch%20diese%20Seite%20an">
+      <img src="twitter-icon.png" alt="" width="61" height="50"></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.rkiformulare.online/%20guckt%20euch%20diese%20Seite%20an">
+        <img src="facebook-icon.png" alt="" width="61" height="61">
+      </a>
+  </div>
+  <div>
+    <h4>Disclaimer</h4>
+    <p>Diese Seite speichert weder Daten zu ihrer Person noch hochgeladene Bilder oder QR-Codes auf Servern. Alle Daten werden nur temporär und lokal im Browser genutzt und anschließend automatisch gelöscht.</p>
+  </div>
+  <a href="">Impressum</a>
   </body>
 </html>
