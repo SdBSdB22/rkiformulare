@@ -17,7 +17,7 @@ jobs:
     - name: manageRelease
       run: |
         mkdir /tmp/dist
-        cp *.html *.css *.js *.png /tmp/dist || true
+        cp *.html *.css *.js *.png *.ico /tmp/dist || true
         git checkout gh-pages
         mkdir -p ./preview
         cd preview
