@@ -9,7 +9,6 @@
   </head>
   <body class="container">
     <h1>RKI Formulare</h1>
-
     <p>Auf dieser Seite kansst du mithilfe der Corona-Warn-App RKI-Formulare automatisch mit deinen Daten ausfüllen. Drücke einfach einen der beiden Knöpfe und scanne dann den QR code von dem Testprofil.</p>
 
     <details>
@@ -126,6 +125,7 @@
           RKIlink.innerHTML = "Link zum RKI Formular";
           RKIlink.style.fontSize= "3em";
           RKIlink.role = "button"
+          RKIlink.style.fontSize= "3em";
           document.getElementById("link").appendChild(RKIlink);
         })
         .catch(err => {
@@ -149,6 +149,5 @@
     <p>Diese Seite speichert weder Daten zu ihrer Person noch hochgeladene Bilder oder QR-Codes auf Servern. Alle Daten werden nur temporär und lokal im Browser genutzt und anschließend automatisch gelöscht.</p>
   </div>
   <a href="">Impressum</a>
-
   </body>
 </html>
