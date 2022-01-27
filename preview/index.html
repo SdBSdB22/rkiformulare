@@ -9,6 +9,7 @@
   </head>
   <body class="container">
     <h1>RKI Formulare</h1>
+
     <p>Auf dieser Seite kansst du mithilfe der Corona-Warn-App RKI-Formulare automatisch mit deinen Daten ausfüllen. Drücke einfach einen der beiden Knöpfe und scanne dann den QR code von dem Testprofil.</p>
 
     <details>
@@ -51,7 +52,6 @@
       const changeCameraLabel= "-----Kamera Wechseln-----";
       const html5QrCode = new Html5Qrcode("reader");
       function openCamera() {
-        document.getElementById("reader").hidden = false;
         Html5Qrcode.getCameras().then(devices => {
           /**
            * devices would be an array of objects of type:
@@ -124,7 +124,6 @@
           RKIlink.href = './rkiformulare.html?openPrintDialog=true';
           RKIlink.innerHTML = "Link zum RKI Formular";
           RKIlink.role = "button"
-          RKIlink.style.fontSize= "3em";
           document.getElementById("link").appendChild(RKIlink);
         })
         .catch(err => {
@@ -133,19 +132,16 @@
         });
       });
     </script>
-    <div id="spacer">
-      <h4>Teile unsere Webseite</h4>
+
+    <div>
+      <h3>Teile unsere Webseite</h3>
       <a class="twitter-share-button"
-      href="https://twitter.com/intent/tweet?text=https://www.rkiformulare.online/%20guckt%20euch%20diese%20Seite%20an">
+      href="https://twitter.com/intent/tweet?text=https://www.rkiformulare.online/">
       <img src="twitter-icon.png" alt="" width="61" height="50"></a>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.rkiformulare.online/%20guckt%20euch%20diese%20Seite%20an">
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.rkiformulare.online/">
         <img src="facebook-icon.png" alt="" width="61" height="61">
       </a>
   </div>
-  <div>
-    <h4>Disclaimer</h4>
-    <p>Diese Seite speichert weder Daten zu ihrer Person noch hochgeladene Bilder oder QR-Codes auf Servern. Alle Daten werden nur temporär und lokal im Browser genutzt und anschließend automatisch gelöscht.</p>
-  </div>
-  <a href="">Impressum</a>
+
   </body>
 </html>
