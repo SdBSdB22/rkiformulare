@@ -23,11 +23,10 @@ function scanFromFile(e) {
         document.getElementById("reader").hidden = true;
         extractUserData(decodedText);
         document.getElementById("buttons").appendChild(createRKILink());
-    })
-        .catch(err => {
-            // failure, handle it.
-            console.log(`Error scanning file. Reason: ${err}`)
-        });
+    }).catch(err => {
+        // failure, handle it.
+        console.log(`Error scanning file. Reason: ${err}`)
+    });
 }
 
 function createRKILink() {
@@ -40,7 +39,7 @@ function createRKILink() {
     const successMessage = document.createElement("p");
 
     const firstName = window.sessionStorage.getItem("firstName") || "";
-    successMessage.innerText = `Hallo ${firstName}: Das scannen des Testprofils war erfolgreich.`;
+    successMessage.innerHTML = `Hallo ${firstName}: Das scannen des Testprofils war <strong>erfolgreich</strong>.`;
     container.appendChild(successMessage);
 
     const RKIlink = document.createElement("a");
@@ -97,7 +96,7 @@ function scanWithCamera() {
             document.getElementById("cameraBox").hidden = true;
 
             extractUserData(decodedText);
-            document.getElementById("link").appendChild(createRKILink());
+            document.getElementById("buttons").appendChild(createRKILink());
         };
         const config = {fps: 10, qrbox: {width: 350, height: 350}, disableFlip: true};
         document.getElementById("cameraBox").innerHTML = "";
@@ -130,6 +129,12 @@ function fillSelectionBox(selectBoxId, values, selectedValue) {
 }
 
 function parseVcard(vCard) {
+    if(!vCard.includes("BEGIN:VCARD")) {
+        document.querySelector('#error').style.display = "inherit";
+        throw "invalid qr code";
+    }
+    document.querySelector('#error').style.display = "none";
+
     let user = new Object();
     user = {
         secondName: vCard.slice(vCard.search("N:") + 22, vCard.search(";")),
