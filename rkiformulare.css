@@ -13,6 +13,10 @@
     border: 2px solid black;
     margin-bottom: 50px;
 }
+
+#impressum-link {
+    float: right;
+}
 /*
 #button {
     height: 5rem;
