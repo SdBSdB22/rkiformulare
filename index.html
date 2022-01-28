@@ -1,161 +1,89 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!doctype html>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="pico.min.css">
-    <link rel="stylesheet" href="rkiformulare.css">
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <title>qr scanner</title>
-  </head>
-  <body class="container">
-    <h1>RKI Formulare</h1>
-    <p>Auf dieser Seite kansst du mithilfe der Corona-Warn-App RKI-Formulare automatisch mit deinen Daten ausfüllen. Drücke einfach einen der beiden Knöpfe und scanne dann den QR code von dem Testprofil (<strong>das Testprofil ist nicht der Impfnachweis</strong>).</p>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RKI Formulare</title>
+    <meta name="description"
+          content="RKI Formulare für die Covid19-Impfung mit dem Testprofil der Corona Warn App ausfüllen">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./rkiformulare.css">
+    <link rel="stylesheet" href="./pico.min.css">
+    <script src="./html5-qrcode.js" type="text/javascript"></script>
+</head>
 
-    <details>
-      <summary>Wie erstelle ich mein Corona-Warn-App-Testprofil?</summary>
-      <p>Um ein Schnelltest-Profil anzulegen, können Nutzer*innen auf der Startseite ihrer Corona-Warn-App unter „Test registrieren“ 
-        auf Nächste Schritte gehen. Dort finden Sie den Bereich „Schnelltest-Profil anlegen“.</p>       
-      
-      <div id="spacer">
-        <img id="screenshot" src="schritt1.png" width="296" height="640">
-        <img id="screenshot" src="schritt2_profil_anlegen.png" width="296" height="640">
-      </div>
-      
-      <p>Dort können sie ihre persönlichen Daten, wie Name, Adresse und Telefonnummer, eintragen. Wenn alles eingetragen ist, 
-        können sie die Daten speichern. Die Corona-Warn-App erstellt daraufhin einen QR-Code aus den Daten, den Nutzer*innen an den Teststellen vorzeigen können.</p>
-        
+<body class="container">
 
-      <p>Einmal angelegt, bleibt das Profil bestehen und kann bei jedem Test wieder vorgezeigt werden. Das Profil ist nur auf dem jeweils eigenen Smartphone in der Corona-Warn-App abgespeichert! Nutzer*innen 
-        können es wieder entfernen, indem sie unter iOS im Schnelltest-Bereich der Corona-Warn-App auf ihr Schnelltest-Profil gehen und dort „Schnelltest-Profil entfernen“ auswählen. Android-Nutzer*innen können 
-        das Profil entfernen, indem sie im Schnelltest-Bereich der Corona-Warn-App auf ihr Schnelltest-Profil gehen und dort im 3-Punkte-Menü "Entfernen" auswählen.</p>
-        
-    </details>
-    <details>
-      <summary>Wie zeige ich mein Corona-Warn-App-Testprofil?</summary>
-      <div id="spacer">
-        <img id="screenshot" src="schritt1.png" width="296" height="640">
-        <img id="screenshot" src="schritt2_profil_anzeigen.png" width="296" height="640">
-      </div>
-     
-    </details>
-    
-    <div class="grid">
-      <button id="button">QR-Code scannen</button>
-      <div>
-        <label for="BrowseImage" id="button"><span id="label_link" role="button">QR-Code aus Foto lesen</span></label>
-        <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan" id="QR-Code-fileInput">
-       </div>
-    </div>
-    <div id="link"></div>
-    
-    <div id="reader" width="600px"></div>
-    <select id="cameraBox" hidden></select>
-    <script type="module">
-      import {parseVcard, fillSelectionBox} from './rkiformulare.js';
-      let cameraId;
-      let cameras;
-      let cameralabels = [];
-      let j = 0;
-      const changeCameraLabel= "-----Kamera Wechseln-----";
-      const html5QrCode = new Html5Qrcode("reader");
-      function openCamera() {
-        document.getElementById("reader").hidden = false;
-        Html5Qrcode.getCameras().then(devices => {
-          /**
-           * devices would be an array of objects of type:
-           * { id: "id", label: "label" }
-           */
-          if (devices && devices.length) {
-            let l = 0;
-            cameraId = devices[j];
-            cameras = devices;
-            for(let i = 0; i < cameras.length; i++){
-              cameralabels[i] = cameras[i].label;
-              l++;
-            }
-            cameralabels[l] = changeCameraLabel;
-            console.log(cameraId);
-            console.log(cameras);
-            console.log(cameralabels);
-          }
-          document.getElementById("cameraBox").hidden = false;
-          const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            html5QrCode.stop();
-            document.getElementById("cameraBox").hidden = true;
-            let RKIlink = document.createElement("a");
-            let user = parseVcard(decodedText);
-            const d = new Date();
-            window.sessionStorage.setItem('firstName', user.firstName);
-            window.sessionStorage.setItem('secondName', user.secondName);
-            window.sessionStorage.setItem('birthdate', user.birthDay);
-            window.sessionStorage.setItem('address', user.street +", "+ user.city+", " +user.zipCode);
-            window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
+<!-- Header -->
+<header>
+    <hgroup>
+        <h1>RKI Formulare</h1>
+        <h2>F&uuml;lle RKI-Anamnese-Bogen und RKI Einwilligungsbogen mit Hilfe des Corona-Warn-App Testprofils aus</h2>
+    </hgroup>
+</header><!-- ./ Header -->
 
-            RKIlink.href = './rkiformulare.html?openPrintDialog=true';
-            RKIlink.innerHTML = "Link zum RKI Formular";
-            RKIlink.role = "button"
-            RKIlink.style.fontSize= "3em";
-            document.getElementById("link").appendChild(RKIlink);
-          };
-          const config = { fps: 10, qrbox: { width: 350, height: 350 }, disableFlip: true};
-          document.getElementById("cameraBox").innerHTML = "";
-          fillSelectionBox("cameraBox", cameralabels ,changeCameraLabel);
-          html5QrCode.start({ deviceId: { exact: cameraId.id} }, config, qrCodeSuccessCallback);
-          });
-        }
-      document.querySelector('button').addEventListener('click', openCamera);
-      document.querySelector('select').addEventListener('change', function(){
-        j = document.querySelector('select').selectedIndex
-        html5QrCode.stop();
-        openCamera();
-      });
-      document.querySelector('input').addEventListener('change', e => {
-        if (e.target.files.length == 0) {
-          return;
-        }
+<!-- Main -->
+<main>
+    </section>
+    <section id="buttons">
+        <button id="button">Testprofil QR-Code scannen</button>
+        <div>
+            <label for="BrowseImage" id="button"><span id="label_link"
+                                                       role="button">Testprofil QR-Code aus Foto lesen</span></label>
+            <input hidden type="file" id="BrowseImage" accept="image/*" name="pictureToScan" id="QR-Code-fileInput">
+        </div>
+        <div id="link"></div>
 
-        const imageFile = e.target.files[0];
-        // Scan QR Code
-        html5QrCode.scanFile(imageFile, true
-        ).then(decodedText => {
-          // success, use decodedText
-          console.log(decodedText);
-          document.getElementById("reader").hidden = true;
-          let RKIlink = document.createElement("a");
-          let user = parseVcard(decodedText);
-          const d = new Date();
-          window.sessionStorage.setItem('firstName', user.firstName);
-          window.sessionStorage.setItem('secondName', user.secondName);
-          window.sessionStorage.setItem('birthdate', user.birthDay);
-          window.sessionStorage.setItem('address', user.street +", "+user.zipCode+" "+ user.city );
-          window.sessionStorage.setItem('date', d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear())
-          RKIlink.href = './rkiformulare.html?openPrintDialog=true';
-          RKIlink.innerHTML = "Link zum RKI Formular";
-          RKIlink.style.fontSize= "3em";
-          RKIlink.role = "button"
-          RKIlink.style.fontSize= "3em";
-          document.getElementById("link").appendChild(RKIlink);
-        })
-        .catch(err => {
-          // failure, handle it.
-          console.log(`Error scanning file. Reason: ${err}`)
-        });
-      });
-    </script>
+        <div id="reader" width="600px"></div>
+        <select id="cameraBox" hidden></select>
+        <script type="module">
+            import {init} from './rkiformulare.js';
 
-    <div id="spacer">
-      <h3>Teile unsere Webseite</h3>
-      <a class="twitter-share-button"
-      href="https://twitter.com/intent/tweet?text=https://www.rkiformulare.online/%20guckt%20euch%20diese%20Seite%20an">
-      <img src="twitter-icon.png" alt="" width="61" height="50"></a>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.rkiformulare.online/%20guckt%20euch%20diese%20Seite%20an">
-        <img src="facebook-icon.png" alt="" width="61" height="61">
-      </a>
-  </div>
-  <div>
-    <h4>Disclaimer</h4>
-    <p>Diese Seite speichert weder Daten zu ihrer Person noch hochgeladene Bilder oder QR-Codes auf Servern. Alle Daten werden nur temporär und lokal im Browser genutzt und anschließend automatisch gelöscht.</p>
-  </div>
-  <a href="./Impressum.html">Impressum</a>
-  </body>
+            init();
+        </script>
+    </section>
+    <section id="error">Ungültiger QR-Code: es werden nur Testprofile der Corona-Warn-App akzeptiert. Impfzertifikate sind <strong>keine</strong> Testprofile (siehe Erläuterungen unten)</section>
+</main><!-- ./ Main -->
+
+<!-- Footer -->
+<footer>
+    <section id="introduction">
+        <details>
+            <summary>Was ist das Corona-Warn-App Testprofil?</summary>
+            <p>Bei dem Testprofil handelt es sich <strong>nicht</strong> um ein Impfzertifikat. Es muss separat angelegt werden. <a
+                    href="https://www.coronawarn.app/de/faq/#rat_profile">Mehr Infos zum Testprofil</a></p>
+        </details>
+        <details>
+            <summary>Wie erstelle ich mein Corona-Warn-App-Testprofil?</summary>
+            <p>Die Corona-Warn-App öffnen und dann:</p>
+            <div id="spacer">
+                <img id="screenshot" src="schritt1.png" width="296" height="640">
+                <img id="screenshot" src="schritt2_profil_anlegen.png" width="296" height="640">
+            </div>
+        </details>
+        <details>
+            <summary>Wie zeige ich mein Corona-Warn-App-Testprofil?</summary>
+            <p>Nachdem das Testprofile angelegt wurde, die Corona-Warn-App öffnen und dann:</p>
+            <div id="spacer">
+                <img id="screenshot" src="schritt1.png" width="296" height="640">
+                <img id="screenshot" src="schritt2_profil_anzeigen.png" width="296" height="640">
+            </div>
+        </details>
+        <details>
+            <summary>Werden Daten von mir gespeichert?</summary>
+            <p>Diese Seite speichert keinerlei Daten auf Servern. Alle Daten werden nur temporär und lokal im Browser genutzt und anschließend automatisch gelöscht.</p>
+        </details>
+    </section>
+    <small>
+        <p>Teile unsere Webseite&nbsp;
+            <a title="Teile auf Twitter" href="https://twitter.com/intent/tweet?text=https://rkiformulare.online/%20keine%20Lust%20auf%20Handschrift?%20Fülle%20RKI-Formulare%20mit%20Hilfe%20des%20Corona-Warn-App%20Testprofils%20aus"> <img src="twitter-icon.png" alt="" width="20px"> </a>
+            <a title="Teile auf Twitter" href='https://www.facebook.com/sharer/sharer.php?u=https://rkiformulare.online/%20keine%20Lust%20auf%20Handschrift?%20Fülle%20RKI-Formulare%20mit%20Hilfe%20des%20Corona-Warn-App%20Testprofils%20aus'> <img src="facebook-icon.png" alt="" width="20px"> </a>
+            &nbsp;
+            <a href="impressum.html" id="impressum-link">Impressum</a>
+        </p>
+    </small>
+</footer><!-- ./ Footer -->
+</body>
+
 </html>
