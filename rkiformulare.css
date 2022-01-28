@@ -17,6 +17,11 @@
 #impressum-link {
     float: right;
 }
+
+a[role="button"] {
+    margin-bottom: 2em;
+}
+
 /*
 #button {
     height: 5rem;
