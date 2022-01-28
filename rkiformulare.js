@@ -44,7 +44,7 @@ function createRKILink() {
 
     const RKIlink = document.createElement("a");
     RKIlink.href = './rkiformulare.html?openPrintDialog=true';
-    RKIlink.innerText = "Ausgefülltes RKI-Formulare jetzt drucken";
+    RKIlink.innerText = "Ausgefüllte RKI-Formulare jetzt drucken";
     RKIlink.setAttribute('role', 'button');
     container.appendChild(RKIlink);
 
