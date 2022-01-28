@@ -4,7 +4,7 @@ const changeCameraLabel = "----- Kamera Wechseln -----";
 let html5QrCode;
 
 // TODO: we should not use global variables here
-let j = 0;
+let selectedCameraIndex;
 let cameraId;
 let cameras;
 let cameralabels = [];
@@ -39,7 +39,7 @@ function createRKILink() {
     const successMessage = document.createElement("p");
 
     const firstName = window.sessionStorage.getItem("firstName") || "";
-    successMessage.innerHTML = `Hallo ${firstName}: Das scannen des Testprofils war <strong>erfolgreich</strong>.`;
+    successMessage.innerHTML = `Hallo <strong>${firstName}</strong>: Das scannen des Testprofils war <strong>erfolgreich</strong>.`;
     container.appendChild(successMessage);
 
     const RKIlink = document.createElement("a");
@@ -78,7 +78,9 @@ function scanWithCamera() {
          */
         if (devices && devices.length) {
             let l = 0;
-            cameraId = devices[j];
+            if(selectedCameraIndex !== undefined) {
+                cameraId = devices[selectedCameraIndex];
+            }
             cameras = devices;
             for (let i = 0; i < cameras.length; i++) {
                 cameralabels[i] = cameras[i].label;
@@ -101,7 +103,11 @@ function scanWithCamera() {
         const config = {fps: 10, qrbox: {width: 350, height: 350}, disableFlip: true};
         document.getElementById("cameraBox").innerHTML = "";
         fillSelectionBox("cameraBox", cameralabels, changeCameraLabel);
-        html5QrCode.start({deviceId: {exact: cameraId.id}}, config, qrCodeSuccessCallback);
+        if(selectedCameraIndex !== undefined) {
+            html5QrCode.start({deviceId: {exact: cameraId.id}}, config, qrCodeSuccessCallback);
+        } else {
+            html5QrCode.start({facingMode: "environment"}, config, qrCodeSuccessCallback);
+        }
     });
 }
 
@@ -157,7 +163,7 @@ function init() {
     document.querySelector('button').addEventListener('click', scanWithCamera);
 
     document.querySelector('select').addEventListener('change', function(){
-        j = document.querySelector('select').selectedIndex
+        selectedCameraIndex = document.querySelector('select').selectedIndex
         html5QrCode.stop();
         scanWithCamera();
     });
